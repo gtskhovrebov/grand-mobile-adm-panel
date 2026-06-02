@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="GM Admin">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Grand Mobile Administration Panel</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1f2633;--text:#edf2f7;--muted:#9aa7b4;--accent:#f6c431;--good:#20c997;--warn:#f4b942;--danger:#ff5c77;--border:#30394c;--input:#0f1520}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(135deg,#0d1117,#151b2b);color:var(--text)}header{padding:16px 20px;border-bottom:1px solid var(--border);background:rgba(13,17,23,.92);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}h1{font-size:20px;margin:0 0 4px}.sub{font-size:13px;color:var(--muted)}.wrap{display:grid;grid-template-columns:340px 1fr;gap:14px;padding:14px;max-width:1520px;margin:0 auto}.card{background:rgba(22,27,34,.96);border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.25);overflow:hidden}.card h2{font-size:15px;margin:0;padding:13px 15px;border-bottom:1px solid var(--border);background:var(--panel2)}.body{padding:13px 15px}label{display:block;margin:9px 0 5px;color:var(--muted);font-size:12px}input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);outline:none;font-size:14px}textarea{resize:vertical;min-height:86px;line-height:1.35}button{border:0;border-radius:10px;padding:10px 12px;background:var(--accent);color:#141414;font-weight:700;cursor:pointer}button:hover{filter:brightness(1.08)}button.good{background:var(--good);color:#06140f}button.secondary{background:#2c3447}button.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}button.danger{background:var(--danger)}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.tab{background:#2b3345;padding:8px 10px;font-size:13px}.tab.active{background:var(--accent);color:#141414}.list{max-height:650px;overflow:auto;padding:8px}.item{padding:10px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;background:#121824;cursor:pointer}.item:hover,.item.active{border-color:var(--accent);background:#1b2233}.name{font-weight:800;font-size:14px;margin-bottom:4px}.desc{font-size:12px;color:var(--muted);line-height:1.3}.main{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.preview{white-space:pre-wrap;background:#0e1420;border:1px solid var(--border);padding:12px;border-radius:12px;min-height:190px;line-height:1.45}.badge{display:inline-block;padding:2px 8px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin-left:6px}.cmd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;max-height:280px;overflow:auto}.cmd{text-align:left;background:#222b3d;font-size:13px;min-height:42px}.small{font-size:12px;color:var(--muted);line-height:1.35}.note{border:1px solid var(--border);background:#111827;border-radius:12px;padding:10px;color:var(--muted);font-size:12px;line-height:1.35}.hidden{display:none!important}hr{border:0;border-top:1px solid var(--border);margin:13px 0}.toast{position:fixed;right:18px;bottom:18px;background:#18895f;color:white;padding:12px 14px;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(10px);transition:.2s;z-index:20}.toast.show{opacity:1;transform:translateY(0)}.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;background:#101722;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px}.checkrow{display:flex;align-items:center;gap:8px;margin-top:9px;color:var(--muted);font-size:12px}.checkrow input{width:auto}.accessbox{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}.accessbox input{max-width:210px}.access-status{font-size:12px;color:var(--muted)}footer{max-width:1520px;margin:0 auto;padding:6px 14px 24px;color:var(--muted);font-size:12px;text-align:center;line-height:1.45}.version{font-weight:800;color:var(--text)}@media(max-width:980px){.wrap,.main{grid-template-columns:1fr}.row,.row3,.row4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h1>Grand Mobile Administration Panel <span class="badge">v1.0.0</span> <span class="badge">Safari / iOS</span></h1><div class="sub">Общая версия содержит шаблоны игроков и ППЖ. Старшие администраторы могут отдельно подгрузить JSON с шаблонами на администрацию.</div></header>
+<div class="wrap">
+<aside class="card"><h2>Шаблонные ответы</h2><div class="body"><input id="search" placeholder="Поиск по названию, описанию, тексту"><div class="tabs" id="tabs"></div><div class="toolbar"><button class="good" onclick="newTemplate()">+ Шаблон</button><button class="ghost" onclick="exportJson('templates')">Экспорт</button><button class="ghost" onclick="importClick('templates')">Импорт</button><button class="secondary" onclick="importClick('adminTemplates')">Подгрузить шаблоны СА</button></div><p class="small">Раздел «Администрация» появится только после загрузки отдельного JSON старшей администрации.</p></div><div class="list" id="templateList"></div></aside>
+<main class="main">
+<section class="card"><h2>Данные жалобы и готовый ответ</h2><div class="body">
+<div class="row3"><div><label>Номер жалобы</label><input id="complain_number" placeholder="12345"></div><div><label>ID жалобы для команды</label><input id="cid" placeholder="12345"></div><div><label>На кого жалоба / нарушитель</label><input id="complain_on" placeholder="Nick_Name"></div></div>
+<div class="checkrow"><input type="checkbox" id="syncCid" checked><span>Подставлять номер жалобы в ID команды автоматически</span></div>
+<div class="row"><div><label>Ник администратора <span class="pill">для жалоб на администрацию</span></label><input id="admin_nick" placeholder="Admin_Name"></div><div><label>Ник игрока для команды</label><input id="nick" placeholder="Nick_Name"></div></div>
+<hr>
+<h2 style="margin:0 -15px 0;padding:13px 15px">Конструктор наказания</h2>
+<div class="row4"><div><label>Тип наказания</label><select id="punishment_kind"><option value="jail">Деморган / Jail — минуты</option><option value="mute">Мут / Mute — минуты</option><option value="warn">Варн / Warn — без срока</option><option value="ban">Бан / Ban — дни</option></select></div><div><label id="durationLabel">Время, минуты</label><input id="punishment_time" type="number" min="1" placeholder="60"></div><div><label>Пункт / причина</label><input id="punishment_point" placeholder="2.1 ОП / DM / SK"></div><div><label>Текстовый тип для ответа</label><input id="punishment_type" placeholder="деморган / мут / варн / бан"></div></div>
+<div class="row"><div><label>Срок для текста ответа</label><input id="punishment_duration" placeholder="60 минут"></div><div><label>Сгенерированная команда</label><input id="generated_command" readonly></div></div>
+<div class="toolbar"><button class="good" onclick="copyGeneratedCommand()">Скопировать команду</button><button class="secondary" onclick="applyPunishmentText()">Обновить наказание в тексте</button><button class="ghost" onclick="clearPunishmentFields()">Очистить наказание</button></div>
+<hr><label>Готовый ответ</label><div class="preview" id="preview"></div><div class="toolbar"><button class="good" onclick="copyText(currentAnswer())">Скопировать ответ</button><button class="secondary" onclick="copyText(currentAnswer()+'\n\n'+generatedCommand())">Ответ + команда</button><button class="ghost" onclick="clearVars()">Очистить поля</button></div>
+<p class="small">Поддерживаемые переменные: {complain_on}, {admin_nick}, {complain_number}, {cid}, {nick}, {punishment_type}, {punishment_duration}, {punishment_phrase}, {punishment_point}, {reason}. Приветствие и подпись добавляются автоматически.</p>
+</div></section>
+<section class="card"><h2>Редактор выбранного шаблона</h2><div class="body"><input type="hidden" id="tpl_id"><div class="row"><div><label>Название</label><input id="tpl_name"></div><div><label>Категория</label><select id="tpl_category"><option value="player">Игроки</option><option value="admin">Администрация</option><option value="default">Общие / ППЖ</option></select></div></div><label>Описание</label><textarea id="tpl_desc"></textarea><label>Текст шаблона</label><textarea id="tpl_text" style="min-height:155px"></textarea><div class="toolbar"><button onclick="saveTemplate()">Сохранить шаблон</button><button class="danger" onclick="deleteTemplate()">Удалить</button><button class="ghost" onclick="resetAll()">Сбросить к исходным JSON</button></div><div class="note" style="margin-top:10px">В самом шаблоне можно не писать приветствие и подпись: панель сама добавит «Уважаемый игрок!» сверху и «С уважением, администрация Grand Mobile.» снизу.</div></div>
+<h2>Готовые кнопки наказаний</h2><div class="body"><input id="punSearch" placeholder="Поиск по готовым командам"><div class="cmd-grid" id="punList"></div><hr><div class="row"><div><label>Название кнопки</label><input id="pun_label" placeholder="DM 60"></div><div><label>Команда</label><textarea id="pun_command" placeholder="/offjail {nick} 60 DM | ЖБ#{cid}"></textarea></div></div><div class="toolbar"><button class="good" onclick="addPunishment()">+ Добавить/сохранить</button><button class="danger" onclick="deletePunishment()">Удалить выбранную</button><button class="ghost" onclick="exportJson('punishments')">Экспорт</button><button class="ghost" onclick="importClick('punishments')">Импорт</button></div><p class="small">Старые кнопки остались. При копировании {nick} и {cid} заменяются автоматически.</p></div></section>
+</main></div><footer><div class="version">Grand Mobile Administration Panel v1.0.0</div><div>Created by John Lincoln<br>for Grand Mobile Administration</div></footer><input type="file" id="fileInput" class="hidden" accept="application/json,.json"><div class="toast" id="toast">Скопировано</div>
+<script>
+const APP_VERSION = "5.0.0";
+const STORAGE_KEY = "grand_mobile_templates_v1";
+const initialTemplates = [
+  {
+    "category": "player",
+    "description": "Наказание",
+    "id": 127,
+    "lang": "ru",
+    "name": "Одобрено(наказание)",
+    "text": "Игрок {complain_on} будет наказан: {punishment_phrase}. Жалоба {complain_number}.\nСпасибо за ваше участие!"
+  },
+  {
+    "category": "default",
+    "description": "нет нарушений",
+    "id": 1,
+    "lang": "ru",
+    "name": "отклонена (нет нарушений)",
+    "text": "После проведения расследования мы пришли к выводу, что в данной жалобе {complain_on} не нарушает правил игры. Мы всегда стремимся поддерживать честную и справедливую игровую среду для всех участников. Ваша внимательность и активное участие в сообществе игры оцениваются нами. Спасибо за понимание!"
+  },
+  {
+    "category": "default",
+    "description": "1.2.2 Доказательства: отсутствуют, обрезаны, отредактированы, не содержат прямых и однозначных признаков нарушения.",
+    "id": 2,
+    "lang": "ru",
+    "name": "1.2.2 ППЖ (обрезка/редактирование/нехватка)",
+    "text": "Жалоба оформлена с нарушением п. 1.2.2 правил подачи жалоб. Жалоба рассмотрению не подлежит. Спасибо за ваше участие!"
+  },
+  {
+    "category": "default",
+    "description": "1.2.3 В описании жалобы отсутствует точное и логичное описание сути произошедшего.",
+    "id": 3,
+    "lang": "ru",
+    "name": "1.2.3 ППЖ (без смысла)",
+    "text": "Жалоба оформлена с нарушением п. 1.2.3 правил подачи жалоб. Жалоба рассмотрению не подлежит. Спасибо за ваше участие!"
+  },
+  {
+    "category": "default",
+    "description": "1.2.5 На доказательствах замечено использование стороннего ПО (читы, макросы, запрещённые модификации и т. п.).",
+    "id": 4,
+    "lang": "ru",
+    "name": "1.2.5 ППЖ (софт/ПО)",
+    "text": "Жалоба оформлена с нарушением п. 1.2.5 правил подачи жалоб. Жалоба рассмотрению не подлежит. Спасибо за ваше участие!"
+  },
+  {
+    "category": "default",
+    "description": "1.2.6 С момента инцидента или выдачи наказания прошло более 48 часов. | Исключение: по решению руководства игры, куратора сервера или старшей администрации в случае грубых или системных нарушений.",
+    "id": 5,
+    "lang": "ru",
+    "name": "1.2.6 ППЖ (более 2-х дней)",
+    "text": "Жалоба оформлена с нарушением п. 1.2.6 правил подачи жалоб. Жалоба рассмотрению не подлежит. Спасибо за ваше участие!"
+  },
+  {
+    "category": "default",
+    "description": "1.2.7 Текст жалобы содержит: оскорбления, ненормативную лексику, токсичное поведение, провокации, угрозы.",
+    "id": 6,
+    "lang": "ru",
+    "name": "1.2.7 ППЖ (неадекват)",
+    "text": "Жалоба оформлена с нарушением п. 1.2.7 правил подачи жалоб. Жалоба рассмотрению не подлежит."
+  },
+  {
+    "category": "default",
+    "description": "1.2.8 Жалоба подана третьим лицом, не являющимся участником инцидента. | Исключение: допускается рассмотрение жалобы, если третье лицо являлось пассивным свидетелем и не провоцировало нарушение, а представленные доказательства достаточны для вынесения решения. Жалобы, поданные с целью провокации, умышленной фиксации нарушений или причинения вреда другим игрокам, не рассматриваются.",
+    "id": 7,
+    "lang": "ru",
+    "name": "1.2.8 ппж(3 лицо)",
+    "text": "Жалоба оформлена с нарушением п. 1.2.8 правил подачи жалоб. Жалоба рассмотрению не подлежит. Спасибо за ваше участие!"
+  },
+  {
+    "category": "default",
+    "description": "1.2.9 Жалоба дублирует уже рассмотренную либо содержит элементы спама.",
+    "id": 8,
+    "lang": "ru",
+    "name": "1.2.9 ппж (дубликат)",
+    "text": "Жалоба оформлена с нарушением п. 1.2.9 правил подачи жалоб. Жалоба рассмотрению не подлежит. Спасибо за ваше участие!"
+  },
+  {
+    "category": "default",
+    "description": "1.2.10. Видеозапись считается непригодной, если по ней нельзя однозначно установить, что произошло. На записи должны отчётливо читаться интерфейс и весь отображаемый текст, быть различимы участники и их действия, а звук должен быть разборчивым и достаточным для понимания ситуации.",
+    "id": 9,
+    "lang": "ru",
+    "name": "1.2.10 ППЖ (качество <480p)",
+    "text": "Жалоба оформлена с нарушением п. 1.2.10 правил подачи жалоб. Жалоба рассмотрению не подлежит. Спасибо за ваше участие!"
+  }
+];
+const initialPunishments = [
+  {
+    "command": "/offjail {nick} 60 DM | ЖБ#{cid}",
+    "label": "DM 60"
+  },
+  {
+    "command": "/offjail {nick} 40 DB | ЖБ#{cid}",
+    "label": "DB 40"
+  },
+  {
+    "command": "/offjail {nick} 30 UB | ЖБ#{cid}",
+    "label": "UB 30"
+  },
+  {
+    "command": "/offwarn {nick} 1.1 GZ | ЖБ#{cid}\n/offjail {nick} 120 1.1 GZ | ЖБ#{cid}",
+    "label": "1.1 GZ"
+  },
+  {
+    "command": "/offwarn {nick} 1.2 GZ | ЖБ#{cid}\n/offjail {nick} 30 1.2 GZ | ЖБ#{cid}",
+    "label": "1.2 GZ"
+  },
+  {
+    "command": "/offwarn {nick} SK | ЖБ#{cid}\n/offjail {nick} 120 SK | ЖБ#{cid}",
+    "label": "SK"
+  },
+  {
+    "command": "/offwarn {nick} TK | ЖБ#{cid}\n/offjail {nick} 60 SK | ЖБ#{cid}",
+    "label": "TK"
+  },
+  {
+    "command": "/offwarn {nick} NonRP cop | ЖБ#{cid}",
+    "label": "NonRP cop"
+  },
+  {
+    "command": "/offwarn {nick} 5.2 ОП | ЖБ#{cid}",
+    "label": "5.2 ОП [варн]"
+  },
+  {
+    "command": "/offban {nick} 31 5.2 ОП | ЖБ#{cid}",
+    "label": "5.2 ОП [бан 31]"
+  },
+  {
+    "command": "/offmute {nick} 120 2.5 ОП | ЖБ#{cid}",
+    "label": "2.5 ОП [мут 120]"
+  },
+  {
+    "command": "/offmute {nick} 160 3.2 ОП | ЖБ#{cid}",
+    "label": "3.2 ОП [мут 60]"
+  },
+  {
+    "command": "/offban {nick} 14 5.5 ОП | ЖБ#{cid}",
+    "label": "5.5 ОП [бан 14]"
+  },
+  {
+    "command": "/offwarn {nick} 5.4 ОП | ЖБ#{cid}",
+    "label": "5.4 ОП "
+  },
+  {
+    "command": "/offjail {nick} 30 5.11 ОП | ЖБ#{cid}\n/offmute {nick} 30 5.11 ОП | ЖБ#{cid}",
+    "label": "5.11 ОП [джайл+мут 30]"
+  },
+  {
+    "command": "/offmute {nick} 30 2.1 ОП | ЖБ#{cid}",
+    "label": "2.1 ОП мут 30 мин"
+  },
+  {
+    "command": "/offmute {nick} 30 2.2 ОП | ЖБ#{cid}",
+    "label": "2.2 ОП мут 30 мин"
+  },
+  {
+    "command": "/offban {nick} 10 2.1 ОП | ЖБ#{cid}",
+    "label": "2.1 ОП бан 10д"
+  }
+];
+let templates = JSON.parse(localStorage.getItem('grand_mobile_templates_v1') || localStorage.getItem('grand_mobile_templates_legacy') || 'null') || initialTemplates;
+let punishments = JSON.parse(localStorage.getItem('grand_mobile_punishments_v1') || localStorage.getItem('grand_mobile_punishments_legacy') || 'null') || initialPunishments;
+let selectedTemplateId = templates[0]?.id || null;
+let selectedPunIndex = -1;
+let activeCategory = 'all';
+let importTarget = null;
+const categoryNames = {all:'Все',player:'Игроки',admin:'Администрация',default:'Общие / ППЖ'};
+function hasAdminTemplates(){return templates.some(t=>t.category==='admin')}
+function $(id){return document.getElementById(id)}
+function saveLocal(){localStorage.setItem('grand_mobile_templates_v1',JSON.stringify(templates));localStorage.setItem('grand_mobile_punishments_v1',JSON.stringify(punishments));}
+function toast(t='Скопировано'){const el=$('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1300)}
+function normalizeBody(text){let t=(text||'').trim();t=t.replace(/^\s*(Уважаемый игрок[!.]?|Приветствую(?: вас)?[!.]?)\s*/i,'').trim();t=t.replace(/\s*С уважением,?\s*администрация\s+Grand\s+Mobile\.?\s*$/i,'').trim();return t}
+function withFrame(text){return 'Уважаемый игрок!\n\n'+normalizeBody(text)+'\n\nС уважением, администрация Grand Mobile.'}
+function categoryLabel(c){return categoryNames[c]||c||'Без категории'}
+function renderTabs(){let cats=['all','player','default'];if(hasAdminTemplates())cats.splice(2,0,'admin');if(!hasAdminTemplates()&&activeCategory==='admin')activeCategory='all';$('tabs').innerHTML=cats.map(c=>`<button class="tab ${activeCategory===c?'active':''}" onclick="activeCategory='${c}';renderTemplates()">${categoryLabel(c)}</button>`).join('')}
+function visibleTemplates(){return templates}
+function renderTemplates(){renderTabs();const q=$('search').value.toLowerCase();let pool=visibleTemplates();if(!pool.find(t=>t.id===selectedTemplateId)){selectedTemplateId=pool[0]?.id||null}let arr=pool.filter(t=>(activeCategory==='all'||t.category===activeCategory)&&((t.name||'').toLowerCase().includes(q)||(t.description||'').toLowerCase().includes(q)||(t.text||'').toLowerCase().includes(q)));$('templateList').innerHTML=arr.map(t=>`<div class="item ${t.id===selectedTemplateId?'active':''}" onclick="selectTemplate(${JSON.stringify(t.id)})"><div class="name">${escapeHtml(t.name||'Без названия')}</div><div class="desc">${categoryLabel(t.category)} · ${escapeHtml(t.description||'')}</div></div>`).join('')||'<div class="small" style="padding:10px">Ничего не найдено.</div>';renderPreview()}
+function selectTemplate(id){const t=templates.find(x=>x.id===id);if(!t)return;selectedTemplateId=id;$('tpl_id').value=t.id;$('tpl_name').value=t.name||'';$('tpl_category').value=t.category||'default';$('tpl_desc').value=t.description||'';$('tpl_text').value=t.text||'';if((t.category||'')==='admin' && !$('admin_nick').value && $('complain_on').value){$('admin_nick').value=$('complain_on').value}renderTemplates();}
+function newTemplate(){const id=Date.now();let cat=activeCategory==='all'?'default':activeCategory;templates.unshift({id,category:cat,lang:'ru',name:'Новый шаблон',description:'',text:'Введите текст шаблона'});selectedTemplateId=id;saveLocal();selectTemplate(id);renderTemplates()}
+function saveTemplate(){const id=$('tpl_id').value?Number($('tpl_id').value):Date.now();let t=templates.find(x=>Number(x.id)===id);if(!t){t={id};templates.unshift(t)}t.name=$('tpl_name').value;t.category=$('tpl_category').value;t.description=$('tpl_desc').value;t.text=$('tpl_text').value;t.lang='ru';selectedTemplateId=t.id;saveLocal();renderTemplates();toast('Шаблон сохранён')}
+function deleteTemplate(){if(!selectedTemplateId)return;if(!confirm('Удалить выбранный шаблон?'))return;templates=templates.filter(t=>t.id!==selectedTemplateId);selectedTemplateId=templates[0]?.id||null;saveLocal();renderTemplates();if(selectedTemplateId)selectTemplate(selectedTemplateId)}
+function punishmentPhrase(){const kind=$('punishment_kind').value;const type=$('punishment_type').value||kindHuman(kind);const point=$('punishment_point').value||'{punishment_point}';const dur=$('punishment_duration').value;if(kind==='warn')return `${type} за ${point}`;return `${type} на ${dur||'{punishment_duration}'}, за ${point}`}
+function vars(){const point=$('punishment_point').value;return {complain_on:$('complain_on').value,admin_nick:$('admin_nick').value,complain_number:$('complain_number').value,cid:$('cid').value||$('complain_number').value,nick:$('nick').value||$('complain_on').value,punishment_type:$('punishment_type').value,punishment_duration:$('punishment_duration').value,punishment_phrase:punishmentPhrase(),punishment_point:point,reason:point}}
+function fill(text){const v=vars();let out=(text||'').replace(/\{(complain_on|admin_nick|complain_number|cid|nick|punishment_type|punishment_duration|punishment_phrase|punishment_point|reason)\}/g,(m,k)=>v[k]||m);if($('punishment_kind').value==='warn'){const type=escapeRegExp(v.punishment_type||'варн');out=out.replace(new RegExp(type+'\\s+на\\s+(?:\\{punishment_duration\\}|[^,.;\\n]+),?\\s*за','gi'),(v.punishment_type||'варн')+' за');out=out.replace(/варм\s+на\s+(?:\{punishment_duration\}|[^,.;\n]+),?\s*за/gi,'варн за');}return out}
+function escapeRegExp(s){return String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function currentRaw(){return templates.find(t=>t.id===selectedTemplateId)?.text||''}
+function currentAnswer(){return withFrame(fill(currentRaw()))}
+function renderPreview(){$('preview').textContent=currentAnswer();}
+function durationUnit(kind,n){n=String(n||'').trim();if(!n)return '';if(kind==='ban')return n+' '+pluralRu(Number(n),'день','дня','дней');if(kind==='jail'||kind==='mute')return n+' '+pluralRu(Number(n),'минута','минуты','минут');return ''}
+function pluralRu(n,a,b,c){n=Math.abs(n)%100;let n1=n%10;if(n>10&&n<20)return c;if(n1>1&&n1<5)return b;if(n1===1)return a;return c}
+function kindHuman(kind){return {jail:'деморган',mute:'мут',warn:'варн',ban:'бан'}[kind]||kind}
+function commandName(kind){return {jail:'/offjail',mute:'/offmute',warn:'/offwarn',ban:'/offban'}[kind]||'/offjail'}
+function generatedCommand(){const kind=$('punishment_kind').value;const nick=vars().nick||'{nick}';const cid=vars().cid||'{cid}';const reason=$('punishment_point').value||'{reason}';const time=$('punishment_time').value; if(kind==='warn')return `${commandName(kind)} ${nick} ${reason} | ЖБ#${cid}`; return `${commandName(kind)} ${nick} ${time||'{time}'} ${reason} | ЖБ#${cid}`}
+function updatePunishmentBuilder(){const kind=$('punishment_kind').value;const time=$('punishment_time').value;$('punishment_type').value=kindHuman(kind);$('punishment_duration').value=durationUnit(kind,time);$('durationLabel').textContent=kind==='ban'?'Время, дни':kind==='warn'?'Время не требуется':'Время, минуты';$('punishment_time').disabled=kind==='warn';if(kind==='warn'){$('punishment_time').value='';$('punishment_duration').value=''}$('generated_command').value=generatedCommand();renderPreview()}
+function applyPunishmentText(){updatePunishmentBuilder();toast('Наказание обновлено в тексте')}
+function clearPunishmentFields(){$('punishment_time').value='';$('punishment_point').value='';$('punishment_type').value='';$('punishment_duration').value='';$('generated_command').value='';renderPreview()}
+async function copyText(text){try{await navigator.clipboard.writeText(text);toast('Скопировано')}catch(e){fallbackCopy(text)}}
+function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Скопировано')}
+function copyGeneratedCommand(){copyText(generatedCommand())}
+function renderPunishments(){const q=$('punSearch').value.toLowerCase();const list=punishments.map((p,i)=>({...p,i})).filter(p=>(p.label||'').toLowerCase().includes(q)||(p.command||'').toLowerCase().includes(q));$('punList').innerHTML=list.map(p=>`<button class="cmd" onclick="selectPunishment(${p.i});copyPredefined(${p.i})">${escapeHtml(p.label||'Команда')}</button>`).join('')||'<div class="small">Команды не найдены.</div>'}
+function selectPunishment(i){selectedPunIndex=i;const p=punishments[i];if(!p)return;$('pun_label').value=p.label||'';$('pun_command').value=p.command||''}
+function copyPredefined(i){selectPunishment(i);copyText(fill(punishments[i].command||''))}
+function addPunishment(){const p={label:$('pun_label').value,command:$('pun_command').value};if(!p.label||!p.command){toast('Заполни название и команду');return}if(selectedPunIndex>=0)punishments[selectedPunIndex]=p;else punishments.push(p);selectedPunIndex=-1;saveLocal();renderPunishments();toast('Команда сохранена')}
+function deletePunishment(){if(selectedPunIndex<0)return;if(!confirm('Удалить выбранную команду?'))return;punishments.splice(selectedPunIndex,1);selectedPunIndex=-1;$('pun_label').value='';$('pun_command').value='';saveLocal();renderPunishments();}
+function clearVars(){['complain_on','admin_nick','complain_number','cid','nick','punishment_time','punishment_point','punishment_type','punishment_duration','generated_command'].forEach(id=>$(id).value='');renderPreview()}
+function exportJson(type){const data=type==='templates'?templates:punishments;const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=type==='templates'?'grand_mobile_templates.json':'grand_mobile_punishments.json';a.click();URL.revokeObjectURL(a.href)}
+function importClick(type){importTarget=type;$('fileInput').value='';$('fileInput').click()}
+$('fileInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data))throw new Error('JSON должен быть массивом');if(importTarget==='templates'){templates=data.filter(t=>t.category!=='admin');selectedTemplateId=templates[0]?.id||null;renderTemplates();if(selectedTemplateId)selectTemplate(selectedTemplateId);toast('Общие шаблоны импортированы. Шаблоны категории admin пропущены.')}else if(importTarget==='adminTemplates'){const adminData=data.map(t=>({...t, category:'admin'}));const nonAdmin=templates.filter(t=>t.category!=='admin');templates=[...nonAdmin,...adminData];selectedTemplateId=adminData[0]?.id||selectedTemplateId;activeCategory='admin';renderTemplates();if(selectedTemplateId)selectTemplate(selectedTemplateId);toast('Шаблоны старшей администрации подгружены')}else{punishments=data;renderPunishments();toast('Команды наказаний импортированы')}saveLocal()}catch(err){alert('Ошибка импорта: '+err.message)}})
+function resetAll(){if(!confirm('Сбросить шаблоны и команды к исходным файлам?'))return;templates=JSON.parse(JSON.stringify(initialTemplates));punishments=JSON.parse(JSON.stringify(initialPunishments));selectedTemplateId=templates[0]?.id||null;saveLocal();renderTemplates();renderPunishments();if(selectedTemplateId)selectTemplate(selectedTemplateId)}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+['search','punSearch'].forEach(id=>$(id).addEventListener('input',id==='search'?renderTemplates:renderPunishments));
+['complain_on','admin_nick','cid','nick','punishment_point','punishment_type','punishment_duration','punishment_time'].forEach(id=>$(id).addEventListener('input',()=>{updatePunishmentBuilder();renderPreview()}));
+$('complain_number').addEventListener('input',()=>{if($('syncCid').checked)$('cid').value=$('complain_number').value;updatePunishmentBuilder();renderPreview()});
+$('syncCid').addEventListener('change',()=>{if($('syncCid').checked)$('cid').value=$('complain_number').value;updatePunishmentBuilder();renderPreview()});
+$('punishment_kind').addEventListener('change',updatePunishmentBuilder);
+renderTemplates();renderPunishments();if(selectedTemplateId)selectTemplate(selectedTemplateId);updatePunishmentBuilder();
+</script>
+</body></html>
