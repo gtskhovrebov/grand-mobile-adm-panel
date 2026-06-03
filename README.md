@@ -1,4 +1,3 @@
-[README_iOS_v2.0.md](https://github.com/user-attachments/files/28531303/README_iOS_v2.0.md)
 # Grand Mobile Administration Panel v2.0 for iOS
 
 Внутренний инструмент администрации Grand Mobile.
