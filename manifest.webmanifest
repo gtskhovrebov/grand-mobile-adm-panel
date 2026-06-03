@@ -1,7 +1,7 @@
 {
   "name": "Grand Mobile Administration Panel",
   "short_name": "GM Admin",
-  "description": "Grand Mobile Administration Panel v2.0 for iOS",
+  "description": "Grand Mobile Administration Panel v2.0 for iOS and macOS",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
